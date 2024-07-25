@@ -17,10 +17,10 @@ bool Game::IsRunning() const
     return isRunning;
 }
 
-float projecTilePosX = 1.0f;
-float projecTilePosY = 1.0f;
-float projecTileVelX = 0.01f;
-float projecTileVelY = 0.01f;
+float projecTilePosX = 0.0f;
+float projecTilePosY = 0.0f;
+float projecTileVelX = 20.0f;
+float projecTileVelY = 30.0f;
 
 void Game::Initialize(int width, int height)
 {
@@ -83,12 +83,23 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
-    projecTilePosX += projecTileVelX;
-    projecTilePosY += projecTileVelY;
+
+    float deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
+
+    ticksLastFrame = SDL_GetTicks();
+
+    // Limitando o valor do delta para permitir o debug (??)
+    deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;
+
+    projecTilePosX += projecTileVelX * deltaTime;
+    projecTilePosY += projecTileVelY * deltaTime;
 }
 
 void Game::Render()
 {
+    while (!SDL_TICKS_PASSED(SDL_GetTicks(), ticksLastFrame + FRAME_TARGET_TIME))
+    {
+    }
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
     SDL_RenderClear(renderer);
 
