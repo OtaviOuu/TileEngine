@@ -97,9 +97,13 @@ void Game::Update()
 
 void Game::Render()
 {
-    while (!SDL_TICKS_PASSED(SDL_GetTicks(), ticksLastFrame + FRAME_TARGET_TIME))
+    int timeToSleep = FRAME_TARGET_TIME - (SDL_GetTicks() - ticksLastFrame);
+
+    if (timeToSleep > 0 && timeToSleep <= FRAME_TARGET_TIME)
     {
+        SDL_Delay(timeToSleep);
     }
+
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
     SDL_RenderClear(renderer);
 
