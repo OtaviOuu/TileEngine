@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Constants.h"
 #include "Game.h"
+#include "../lib/glm/glm.hpp"
 
 Game::Game()
 {
@@ -17,10 +18,8 @@ bool Game::IsRunning() const
     return isRunning;
 }
 
-float projecTilePosX = 0.0f;
-float projecTilePosY = 0.0f;
-float projecTileVelX = 20.0f;
-float projecTileVelY = 30.0f;
+glm::vec2 projectTilePos = glm::vec2(0.0f, 0.0f);
+glm::vec2 projectTileVel = glm::vec2(20.0f, 20.0f);
 
 void Game::Initialize(int width, int height)
 {
@@ -72,7 +71,7 @@ void Game::ProcessInput()
 
         if (event.key.keysym.sym == SDLK_0)
         {
-            projecTilePosX += 100;
+            projectTilePos.x += 100;
             break;
         }
 
@@ -91,8 +90,10 @@ void Game::Update()
     // Limitando o valor do delta para permitir o debug (??)
     deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;
 
-    projecTilePosX += projecTileVelX * deltaTime;
-    projecTilePosY += projecTileVelY * deltaTime;
+    // Atualiando o vetor posição
+    projectTilePos = glm::vec2(
+        projectTilePos.x + projectTileVel.x * deltaTime,
+        projectTilePos.y + projectTileVel.y * deltaTime);
 }
 
 void Game::Render()
@@ -108,8 +109,8 @@ void Game::Render()
     SDL_RenderClear(renderer);
 
     SDL_Rect projecTile{
-        (int)projecTilePosX,
-        (int)projecTilePosY,
+        (int)projectTilePos.x,
+        (int)projectTilePos.y,
         10,
         10};
 
