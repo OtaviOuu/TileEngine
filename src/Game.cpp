@@ -117,6 +117,7 @@ void Game::Render()
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &projecTile);
 
+    // Troca o front buffer pelo back buffer
     SDL_RenderPresent(renderer);
 }
 
