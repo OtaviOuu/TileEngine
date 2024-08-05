@@ -4,13 +4,16 @@
 #include <vector>
 #include <string>
 #include "./EntityManager.h"
+#include "Component.h"
+
+class EntityManager;
 
 class Entity
 {
 private:
     EntityManager &manager;
-    bool isActive;
     std::vector<Component *> components;
+    bool isActive;
 
 public:
     std::string name;

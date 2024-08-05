@@ -1,7 +1,11 @@
 #include <iostream>
 #include "Constants.h"
 #include "Game.h"
+#include "EntityManager.h"
 #include "../lib/glm/glm.hpp"
+
+EntityManager *manager;
+SDL_Renderer *Game::renderer;
 
 Game::Game()
 {
@@ -17,9 +21,6 @@ bool Game::IsRunning() const
 {
     return isRunning;
 }
-
-glm::vec2 projectTilePos = glm::vec2(0.0f, 0.0f);
-glm::vec2 projectTileVel = glm::vec2(20.0f, 20.0f);
 
 void Game::Initialize(int width, int height)
 {
@@ -69,12 +70,6 @@ void Game::ProcessInput()
             break;
         }
 
-        if (event.key.keysym.sym == SDLK_0)
-        {
-            projectTilePos.x += 100;
-            break;
-        }
-
     default:
         break;
     }
@@ -89,11 +84,6 @@ void Game::Update()
 
     // Limitando o valor do delta para permitir o debug (??)
     deltaTime = (deltaTime > 0.05f) ? 0.05f : deltaTime;
-
-    // Atualiando o vetor posição
-    projectTilePos = glm::vec2(
-        projectTilePos.x + projectTileVel.x * deltaTime,
-        projectTilePos.y + projectTileVel.y * deltaTime);
 }
 
 void Game::Render()
@@ -108,14 +98,8 @@ void Game::Render()
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect projecTile{
-        (int)projectTilePos.x,
-        (int)projectTilePos.y,
-        10,
-        10};
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &projecTile);
+    // TODO:
+    // Chamar o manager.render para renderizar todas as entidades criadas
 
     // Troca o front buffer pelo back buffer
     SDL_RenderPresent(renderer);
