@@ -1,1 +1,1 @@
-git rm --cached .vscode
+git rm --cached ./.vscode
