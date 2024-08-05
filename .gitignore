@@ -1,1 +1,1 @@
-./game
+git rm --cached .vscode
